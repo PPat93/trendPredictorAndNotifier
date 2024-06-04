@@ -9,11 +9,10 @@ Extract values from the response and deletes everything that is not needed;
 import os
 import requests
 
-api_key = os.environ.get("OPENAI_API_KEY")
+API_KEY = os.environ.get("OPENAI_API_KEY")
 
-api_uri = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=IBM&\
-            interval=5min&apikey={api_key}&outputsize=compact"
+API_URI = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=IBM&interval=5min&apikey={API_KEY}&outputsize=compact"
 
-r = requests.get(api_uri, timeout=10)
+r = requests.get(API_URI, timeout=10)
 
-# print(f"Status: {r.status_code}, Res: {r.content}")
+print(f"Status: {r.status_code}, Res: {r.content}")
