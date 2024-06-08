@@ -10,16 +10,13 @@ import ssl
 import os
 from email.message import EmailMessage
 
-from api_retriever_cmb import retrieve_data
-
-
 PORT = 465
 TICKER = "CMA"
 sender_email = os.environ.get("predictorMailerAddress")
 sender_pass = os.environ.get("predictorAppPass")
 notifyee_email = os.environ.get("notifyeeMailerAddress")
 
-retriever_res = retrieve_data(TICKER).content
+retriever_res = '0' #TODO
 
 compose_message = EmailMessage()
 
