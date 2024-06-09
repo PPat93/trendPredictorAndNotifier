@@ -6,8 +6,6 @@ Receives response with retrieved values;
 Extract values from the response and deletes everything that is not needed;
 """
 
-# TODO - to be expanded and refactoredto be able to retrieve different metrics and symbols with various settings
-
 import os
 import requests
 
@@ -17,7 +15,7 @@ HEADERS = {"Content-Type": "application/json"}
 
 
 # shared with crypto price - max 50 reqs/hour, 1000 reqs/day
-def retrieve_last_stock_price(stock_ticker):
+def retrieve_last_stock_price(stock_ticker: str):
     """Retrieve latest stock price"""
     price_api_uri = f"https://api.tiingo.com/iex/{stock_ticker}?token={PRICE_API_KEY}"
 
@@ -28,7 +26,7 @@ def retrieve_last_stock_price(stock_ticker):
 
 
 # max 25 reqs/day
-def retrieve_stock_fundamental_data(stock_ticker):
+def retrieve_stock_fundamental_data(stock_ticker: str):
     """Retrieve fundamental data for the specified stock"""
     fundamental_api_uri = f"https://www.alphavantage.co/query?function=OVERVIEW&symbol={stock_ticker}&apikey={FUNDAMENTAL_API_KEY}"
 
@@ -39,7 +37,7 @@ def retrieve_stock_fundamental_data(stock_ticker):
 
 
 # shared with stock price - max 50 reqs/hour, 1000 reqs/day
-def retrieve_last_crypto_price(crypto_ticker):
+def retrieve_last_crypto_price(crypto_ticker: str):
     """Retrieve latest crypto price"""
     crypto_api_uri = f"https://api.tiingo.com/tiingo/crypto/top?tickers={crypto_ticker}&token={PRICE_API_KEY}"
 
