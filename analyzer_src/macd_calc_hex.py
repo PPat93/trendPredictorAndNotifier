@@ -12,6 +12,9 @@ import talib
 import yfinance as yf
 
 # MACD=12-Period EMA − 26-Period EMA
+# EMAs - 12 periods and 26 periods Exponential Moving Average
+# EMA = Price(today)×k+EMA(yesterday)×(1−k); where: k=2÷(N+1), n = number of days
+# the above calculation formula assumes 1 day = 1 period
 
 def calc_macd(ticker: str, start_date: str, end_date: str):
     """Retrieve specified stock data range and calculate its MACD"""
