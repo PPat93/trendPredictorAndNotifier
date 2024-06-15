@@ -11,8 +11,6 @@ import yfinance as yf
 
 # MACD = 12-PeriodEMA − 26-PeriodEMA
 # EMAs - 12 periods and 26 periods Exponential Moving Average
-# EMA = Price(today)×k+EMA(yesterday)×(1−k); where: k=2÷(N+1), n = number of days
-# the above calculation formula assumes 1 day = 1 period
 
 
 def calc_macd(ticker: str, start_date: str, end_date: str, interval):
@@ -27,5 +25,3 @@ def calc_macd(ticker: str, start_date: str, end_date: str, interval):
     res["MACD"] = res["EMA12"] - res["EMA26"]
 
     return res["MACD"]
-
-print(calc_macd("NVDA","2024-01-01", "2024-07-07", "1wk"))
