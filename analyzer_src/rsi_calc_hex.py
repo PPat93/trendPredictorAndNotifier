@@ -5,6 +5,7 @@ The given time intervals will be used to determine the range of calculations.
 Window parameter defines how much the old data influences the new data. 
     - Scientificly: Specifies decay in terms of center of mass. 
     - The larger the window, the greater the influence of older data on newer data.
+Worth using with other ratios - great with MACD.
 Base calculations are given in the comment. However, the Ta-Lib library was used 
 for the calculations.
 """
