@@ -12,8 +12,12 @@ import yfinance as yf
 def calc_ema(ticker: str, period: int):
     """Retrieve specified stock and calculate its EMA"""
 
-    res = yf.download(ticker, interval=period)
-
+    # todo attach dates to automatically calculate expected period for retrieval - starting from current day"
+    # something like: startd_date = {today}, end_date = {today - period}
+    res = yf.download(ticker, interval="1d")
+    
     res["EMA"] = res["Close"].ewm(span=period, adjust=False).mean()
 
     return res["EMA"]
+
+calc_ema("nvda", 12)

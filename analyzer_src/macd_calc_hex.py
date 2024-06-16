@@ -8,6 +8,7 @@ Base calculations are given in the comment.
 """
 
 import yfinance as yf
+from ema_hex import calc_ema
 
 # MACD = 12-PeriodEMA − 26-PeriodEMA
 # EMAs - 12 periods and 26 periods Exponential Moving Average
@@ -18,10 +19,10 @@ def calc_macd(ticker: str, start_date: str, end_date: str, interval):
 
     res = yf.download(ticker, start_date, end_date, interval=interval)
 
-    res["EMA12"] = res["Close"].ewm(span=12, adjust=False).mean()
+    ema12 = calc_ema(ticker, 12)
     res["EMA26"] = res["Close"].ewm(span=26, adjust=False).mean()
 
     # Calculate MACD (the difference between 12-period EMA and 26-period EMA)
-    res["MACD"] = res["EMA12"] - res["EMA26"]
+    res["MACD"] = ema12["EMA12"] - res["EMA26"]
 
     return res["MACD"]
