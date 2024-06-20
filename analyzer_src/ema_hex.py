@@ -1,6 +1,9 @@
 """
 EMA hex:
-Calculates Exponential Moving Average for a given stock ticker.
+Calculates Exponential Moving Average for a given stock ticker on specified period.
+Most recent data points are more important than older ones. Therefore, it reacts 
+more the more recent price change is. Usually used to find buy/sell signals.
+Most frequently used periods are: 12, 26, 50, 200 days.
 """
 
 from datetime import date, timedelta
@@ -11,7 +14,7 @@ import yfinance as yf
 
 
 def calc_ema(ticker: str, period: int):
-    """Retrieve specified stock and calculate its EMA"""
+    """Retrieve specified stock data and calculate its EMA for specified period"""
 
     current_date = date.today()
     potential_public_holidays = 20
@@ -23,6 +26,7 @@ def calc_ema(ticker: str, period: int):
     elif period > 150:
         potential_public_holidays = 40
 
+    # Increase number of data points to be retrieved by the number of potential non-trading days;
     period_including_non_working_days = (
         include_weekends_in_days_substract(date.today(), period)
         + potential_public_holidays
@@ -31,6 +35,7 @@ def calc_ema(ticker: str, period: int):
     # Calculate expected retrieval date
     start_date = date.today() - timedelta(days=period_including_non_working_days)
     data_retrieved = yf.download(ticker, start=start_date, end=current_date)
+
     # Adjust retrieved data to have specified periods
     data_retrieved = data_retrieved.tail(period)
 
@@ -47,7 +52,7 @@ def include_weekends_in_days_substract(date, workdays_to_substract: int):
     all_days_to_substract = 0
     temp_date = date
 
-    # If day is non-weekend, lower workdays_to_substract by one
+    # If a day is non-weekend one, lower workdays_to_substract by one
     while workdays_to_substract > 0:
         temp_date -= timedelta(days=1)
         if temp_date.weekday() < 5:
