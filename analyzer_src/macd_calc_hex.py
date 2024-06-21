@@ -7,22 +7,22 @@ ratios cause if used alone it might generate false signals. Great with RSI.
 Base calculations are given in the comment.
 """
 
-import yfinance as yf
 from ema_hex import calc_ema
 
 # MACD = 12-PeriodEMA − 26-PeriodEMA
 # EMAs - 12 periods and 26 periods Exponential Moving Average
 
 
-def calc_macd(ticker: str, start_date: str, end_date: str, interval):
+def calc_macd(ticker: str):
     """Retrieve specified stock data range and calculate its MACD"""
 
-    res = yf.download(ticker, start_date, end_date, interval=interval)
-
     ema12 = calc_ema(ticker, 12)
-    res["EMA26"] = res["Close"].ewm(span=26, adjust=False).mean()
+    ema26 = calc_ema(ticker, 26)
 
     # Calculate MACD (the difference between 12-period EMA and 26-period EMA)
-    res["MACD"] = ema12["EMA12"] - res["EMA26"]
+    # TODO - something is not right with macd results, to be che
+    macd = ema12 - ema26
 
-    return res["MACD"]
+    return macd
+
+print(calc_macd('nvda'))
