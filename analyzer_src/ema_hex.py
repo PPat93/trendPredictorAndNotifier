@@ -40,9 +40,9 @@ def calc_ema(ticker: str, period: int):
     data_retrieved = data_retrieved.tail(period)
 
     # Calculate Exponential Moving Average
-    ema = data_retrieved["Close"].ewm(span=period, adjust=False).mean()
+    data_retrieved["ema"] = data_retrieved["Close"].ewm(span=period, adjust=False).mean()
 
-    return ema
+    return data_retrieved
 
 
 def include_weekends_in_days_substract(date, workdays_to_substract: int):
