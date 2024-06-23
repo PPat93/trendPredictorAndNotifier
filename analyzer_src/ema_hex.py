@@ -4,6 +4,7 @@ Calculates Exponential Moving Average for a given stock ticker on specified peri
 Most recent data points are more important than older ones. Therefore, it reacts 
 more the more recent price change is. Usually used to find buy/sell signals.
 Most frequently used periods are: 12, 26, 50, 200 days.
+EMA calculated here is limited to the specified period.
 """
 
 from datetime import date, timedelta
@@ -36,21 +37,22 @@ def calc_ema(ticker: str, period: int):
     start_date = date.today() - timedelta(days=period_including_non_working_days)
     data_retrieved = yf.download(ticker, start=start_date, end=current_date)
 
+    # Calculate Exponential Moving Average
+    data_retrieved["ema"] = (
+        data_retrieved["Close"].ewm(span=period, adjust=False).mean()
+    )
+
     # Adjust retrieved data to have specified periods
     data_retrieved = data_retrieved.tail(period)
-
-    # Calculate Exponential Moving Average
-    data_retrieved["ema"] = data_retrieved["Close"].ewm(span=period, adjust=False).mean()
 
     return data_retrieved
 
 
-def include_weekends_in_days_substract(date, workdays_to_substract: int):
+def include_weekends_in_days_substract(temp_date: date, workdays_to_substract: int):
     """Include weekends in the working days provided in workdays_to_substract to
     calculate how many days actually needs to be substracted to reach the
     period of workdays_to_substract workdays"""
     all_days_to_substract = 0
-    temp_date = date
 
     # If a day is non-weekend one, lower workdays_to_substract by one
     while workdays_to_substract > 0:
