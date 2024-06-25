@@ -13,17 +13,24 @@ from ema_hex import calc_ema
 # MACD = 12-PeriodEMA − 26-PeriodEMA
 # EMAs - 12 periods and 26 periods Exponential Moving Average
 
-# TODO Add macd signal and short/long timeframe options through 
-# an additional method argument
 
-
-def calc_macd(ticker: str):
+def calc_macd(ticker: str, timeframe: str):
     """Retrieve specified stock data range and calculate its MACD"""
 
-    ema12 = calc_ema(ticker, 12)
-    ema26 = calc_ema(ticker, 26)
+    if timeframe == "short":
+        period_s = 12
+        period_l = 26
+        s_line = 9
+    elif timeframe == "long":
+        period_s = 24
+        period_l = 52
+        s_line = 18
 
-    # Calculate MACD (the difference between 12-period EMA and 26-period EMA)
-    macd = ema12["ema"] - ema26["ema"]
+    ema_s = calc_ema(ticker, period_s)
+    ema_l = calc_ema(ticker, period_l)
 
-    return macd
+    # Calculate MACD (the difference between shorter-period EMA and longer-period EMA)
+    macd = ema_s["ema"] - ema_l["ema"]
+    signal = macd.ewm(span=s_line, adjust=False).mean()
+
+    return macd, signal
