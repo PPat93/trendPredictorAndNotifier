@@ -10,7 +10,6 @@ shorter period.
 
 from ema_hex import calc_ema
 import numpy as np
-from matplotlib import pyplot as plt
 
 # MACD = 12-PeriodEMA − 26-PeriodEMA
 # EMAs - 12 periods and 26 periods Exponential Moving Average
@@ -45,11 +44,3 @@ def trade_signals(ticker: str, timeframe: str):
 
     signals = np.where(macd > signal, 1, -1)
     signals = np.where(macd.isnull(), 0, signals)
-
-    fig, ax = plt.subplots(figsize=(16, 9))
-    ax.plot(macd)
-    ax.plot(signal)
-    plt.show()
-    return signals
-
-print(trade_signals("nvda", "long"))
