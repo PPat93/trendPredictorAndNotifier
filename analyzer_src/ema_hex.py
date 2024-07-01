@@ -35,7 +35,7 @@ def calc_ema(ticker: str, period: int):
 
     # Calculate expected retrieval date
     start_date = date.today() - timedelta(days=period_including_non_working_days)
-    data_retrieved = yf.download(ticker, start=start_date, end=current_date)
+    data_retrieved = yf.download(tickers=ticker, start=start_date, end=current_date)
 
     # Calculate Exponential Moving Average
     data_retrieved["ema"] = (
