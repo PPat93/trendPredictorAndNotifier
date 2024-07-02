@@ -32,7 +32,7 @@ import yfinance as yf
 def calc_rsi(ticker: str, start_date: str, end_date: str):
     """Retrieve specified stock data range and calculate its RSI"""
 
-    data_res = yf.download(ticker, start_date, end_date)
+    data_res = yf.download(tickers=ticker, start=start_date, end=end_date)
 
     # pylint: disable=no-member
     data_res["RSI"] = talib.RSI(data_res["Close"], 14)
