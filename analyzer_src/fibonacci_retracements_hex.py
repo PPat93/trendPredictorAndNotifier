@@ -26,11 +26,11 @@ def calc_fib_retr(ticker: str, start_date: str, end_date: str, trend_direction: 
     lvl_lines = []
 
     dif = res_highest - res_lowest
-    
+
     for x in lvl_rates:
         if trend_direction == "up":
             lvl_lines.append(res_highest - x * dif)
-        elif trend_direction == "down": 
+        elif trend_direction == "down":
             lvl_lines.append(res_lowest + x * dif)
-            
+
     return lvl_lines
