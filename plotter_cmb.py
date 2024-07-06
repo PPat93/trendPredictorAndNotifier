@@ -6,14 +6,15 @@ Creates graphs for content of notification emails;
 
 import matplotlib.pyplot as plt
 
-def plot_graph(data, ticker, start_date, end_date, *horizontal_lines):
+def plot_one_graph(data, graph_name, ticker, start_date, end_date, *horizontal_lines):
 
     fig, ax = plt.subplots()
     ax.plot(data)
     ax.legend()
     ax.set_xlabel('Date')
-    ax.set_ylabel('Price')
-    ax.set_title(f"{ticker} Stock Price ({start_date} to {end_date})")
+    ax.set_ylabel(graph_name)
+    ax.set_title(f"{ticker} Stock {graph_name} graph ({start_date} to {end_date})")
+    ax.hlines(y=horizontal_lines, xmin=4, xmax=20, linewidth=2, color='r')
     plt.show()
 
-plot_graph([1, 2, 3], "NVDA", "121", "12")
+plot_one_graph([1, 2, 3], "MACD", "NVDA", "121", "12", 4)
