@@ -7,8 +7,8 @@ Remove old reference data if expected;
 """
 
 from api_retriever_cmb import retrieve_last_stock_price
-from trendPredictor.analyzer_src.rsi_calc_hex import calc_rsi
-from trendPredictor.analyzer_src.macd_calc_hex import calc_macd
+from analyzer_src.rsi_calc_hex import calc_rsi
+from analyzer_src.macd_calc_hex import calc_macd
 
 
 def run_trend_analysis(ticker: str, start_date: str, end_date: str, timeframe: str):

@@ -14,7 +14,7 @@ def plot_one_graph(data, graph_name, ticker, start_date, end_date, *horizontal_l
     ax.set_xlabel('Date')
     ax.set_ylabel(graph_name)
     ax.set_title(f"{ticker} Stock {graph_name} graph ({start_date} to {end_date})")
-    ax.hlines(y=horizontal_lines, xmin=4, xmax=20, linewidth=2, color='r')
+    ax.hlines(y=horizontal_lines, xmin=start_date, xmax=end_date, linewidth=2, color='r')
     plt.show()
 
-plot_one_graph([1, 2, 3], "MACD", "NVDA", "121", "12", 4)
+# plot_one_graph([1, 2, 3], "MACD", "NVDA", "1", "12", 4)
