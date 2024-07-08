@@ -9,6 +9,8 @@ Worth using with other ratios - great with MACD.
 Base calculations are given in the comment. However, the Ta-Lib library was used 
 for the calculations.
 """
+# talib installation:
+# py.exe -3.12 -m pip install TA_Lib-0.4.29-cp312-cp312-win_amd64.whl 
 
 import talib
 import yfinance as yf
