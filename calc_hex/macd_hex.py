@@ -26,9 +26,12 @@ def calc_macd(ticker: str, timeframe: str):
         period_s = 24
         period_l = 52
         s_line = 18
+        
+    local_ema_l = ema.EMA(ticker, period_l)   
+    local_ema_s = ema.EMA(ticker, period_l)   
 
-    ema_s = ema.calc_ema(ticker, period_s)
-    ema_l = ema.calc_ema(ticker, period_l)
+    ema_s = local_ema_l.calc_ema()
+    ema_l = local_ema_l.calc_ema()
 
     # Calculate MACD (the difference between shorter-period EMA and longer-period EMA)
     macd = ema_s["ema"] - ema_l["ema"]
@@ -47,4 +50,3 @@ def trade_signals(ticker: str, timeframe: str):
 
 
 macd, horizontal = calc_macd("NVDA", "long")
-

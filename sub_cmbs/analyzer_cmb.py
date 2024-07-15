@@ -12,14 +12,18 @@ import calc_hex.ema_hex as ema
 from . import api_retriever_cmb as retriever
 
 
-def run_trend_analysis(ticker: str, start_date: str, end_date: str, timeframe: str):
+def run_trend_analysis(ticker: str, start_date: str, end_date: str, timeframe: str, period: int):
+
+    ema_new = ema.EMA(ticker, period)
 
     latest_price = float((retriever.retrieve_last_stock_price(ticker))[0].get("last"))
 
     calculated_rsi = rsi.calc_rsi(ticker, start_date, end_date)
+    calculated_ema = ema_new.calc_ema()
     calculated_macd = macd.calc_macd(ticker, timeframe)
 
     trend_is_reversed = (
         False  # TODO bool returned with a value if the trend was reversed
     )
+    
     return trend_is_reversed
