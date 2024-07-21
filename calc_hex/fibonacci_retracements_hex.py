@@ -12,9 +12,13 @@ percentages to get ahead other traders.
 
 import yfinance as yf
 
+
 class FibonacciRetrace:
-    
-    def __init__(self, ticker: str, start_date: str, end_date: str, trend_direction: str) -> object:
+    """Class for Fibonacci Retracements calculation and all utilities around it"""
+
+    def __init__(
+        self, ticker: str, start_date: str, end_date: str, trend_direction: str
+    ) -> object:
         self.ticker = ticker
         self.start_date = start_date
         self.end_date = end_date

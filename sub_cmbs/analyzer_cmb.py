@@ -24,15 +24,16 @@ def run_trend_analysis(
 
     ema_new = ema.EMA(ticker, period)
     fibonacci_new = fibs.FibonacciRetrace(ticker, start_date, end_date, trend_direction)
+    rsi_new = rsi.RSI(ticker, start_date, end_date)
     macd_new = macd.MACD(ticker, timeframe)
 
     latest_price = float((retriever.retrieve_last_stock_price(ticker))[0].get("last"))
 
-    calculated_rsi = rsi.calc_rsi(ticker, start_date, end_date)
+    calculated_rsi = rsi_new.calc_rsi()
     calculated_fibonacci = fibonacci_new.calc_fib_retr()
     calculated_ema = ema_new.calc_ema()
     calculated_macd = macd_new.calc_macd()
-    
+
     trend_is_reversed = (
         False  # TODO bool returned with a value if the trend was reversed
     )

@@ -15,7 +15,7 @@ import yfinance as yf
 
 
 class EMA:
-    """Class for calculation EMA and all utilities around it"""
+    """Class for EMA calculation and all utilities around it"""
 
     def __init__(self, ticker: str, period: int) -> object:
         self.ticker = ticker
