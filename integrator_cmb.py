@@ -11,13 +11,58 @@ Analyzer -> Integrator -> Mailer
 Database -> Integrator -> Mailer
 """
 
-from sub_cmbs.analyzer_cmb import run_trend_analysis
+from sub_cmbs.analyzer_cmb import Stock as stck
+import time
+
+stocks = {}
 
 
-def invoke_trend_analysis(ticker: str, start_date: str, end_date: str, timeframe: str, period: int, trend_direction: str):
+def check_dictionary(dictionary, string):
+    """Check if any key in dictionary includes a string, if so - return these keys"""
+    if any(string in key for key in dictionary):
+        return list(key for key in dictionary if string in key)
+
+
+def invoke_trend_analysis(
+    ticker: str,
+    start_date: str,
+    end_date: str,
+    timeframe: str,
+    period: int,
+    trend_direction: str,
+):
     """Execute trend analysis"""
 
-    is_trend_reversed = run_trend_analysis(ticker, start_date, end_date, timeframe, period, trend_direction)
+    # Check if stocks dictionary already has ticker stock class instance created
+    check_existing = check_dictionary(stocks, ticker)
+
+    # if stock instance already exists - create new stock instance, remove old one
+    # and replace key for the new one wwith current timestamp
+    if check_existing:
+        timestamp = int(time.time())
+        new_key = ticker + str(timestamp)
+        current_stock = check_existing[0]
+        stocks[new_key] = stck(
+            ticker, start_date, end_date, timeframe, period, trend_direction
+        )
+        del stocks[current_stock]
+        current_stock = new_key
+    # if stock instance does not exist, just create new stock instance and include
+    # it in stocks dictionary with ticker name plus current timestamp
+    else:
+        timestamp = int(time.time())
+        current_stock = ticker + str(timestamp)
+        stocks[current_stock] = stck(
+            ticker, start_date, end_date, timeframe, period, trend_direction
+        )
+
+    # run trend analysis on freshly created stock instance
+    is_trend_reversed = stocks[current_stock].run_trend_analysis()
+
     # return analysis_result TODOs
 
+
+invoke_trend_analysis("NVDA", "2024-05-02", "2024-07-07", "long", 26, "up")
+invoke_trend_analysis("NVDA", "2024-05-02", "2024-07-07", "long", 26, "up")
+invoke_trend_analysis("CMA", "2024-05-02", "2024-07-07", "long", 26, "up")
 invoke_trend_analysis("NVDA", "2024-05-02", "2024-07-07", "long", 26, "up")

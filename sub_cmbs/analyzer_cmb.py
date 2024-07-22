@@ -13,29 +13,47 @@ import calc_hex.fibonacci_retracements_hex as fibs
 from . import api_retriever_cmb as retriever
 
 
-def run_trend_analysis(
-    ticker: str,
-    start_date: str,
-    end_date: str,
-    timeframe: str,
-    period: int,
-    trend_direction: str,
-):
+class Stock:
+    """Class for entire stock analysis."""
 
-    ema_new = ema.EMA(ticker, period)
-    fibonacci_new = fibs.FibonacciRetrace(ticker, start_date, end_date, trend_direction)
-    rsi_new = rsi.RSI(ticker, start_date, end_date)
-    macd_new = macd.MACD(ticker, timeframe)
+    def __init__(
+        self,
+        ticker: str,
+        start_date: str,
+        end_date: str,
+        timeframe: str,
+        period: int,
+        trend_direction: str,
+    ) -> bool:
+        self.ticker = ticker
+        self.start_date = start_date
+        self.end_date = end_date
+        self.end_date = end_date
+        self.timeframe = timeframe
+        self.period = period
+        self.trend_direction = trend_direction
 
-    latest_price = float((retriever.retrieve_last_stock_price(ticker))[0].get("last"))
+    def run_trend_analysis(self):
+        """Method allowing for complete stock trend analysis run from one place"""
 
-    calculated_rsi = rsi_new.calc_rsi()
-    calculated_fibonacci = fibonacci_new.calc_fib_retr()
-    calculated_ema = ema_new.calc_ema()
-    calculated_macd = macd_new.calc_macd()
+        ema_new = ema.EMA(self.ticker, self.period)
+        fibonacci_new = fibs.FibonacciRetrace(
+            self.ticker, self.start_date, self.end_date, self.trend_direction
+        )
+        rsi_new = rsi.RSI(self.ticker, self.start_date, self.end_date)
+        macd_new = macd.MACD(self.ticker, self.timeframe)
 
-    trend_is_reversed = (
-        False  # TODO bool returned with a value if the trend was reversed
-    )
+        latest_price = float(
+            (retriever.retrieve_last_stock_price(self.ticker))[0].get("last")
+        )
 
-    return trend_is_reversed
+        calculated_rsi = rsi_new.calc_rsi()
+        calculated_fibonacci = fibonacci_new.calc_fib_retr()
+        calculated_ema = ema_new.calc_ema()
+        calculated_macd = macd_new.calc_macd()
+
+        trend_is_reversed = (
+            False  # TODO bool returned with a value if the trend was reversed
+        )
+
+        return trend_is_reversed
