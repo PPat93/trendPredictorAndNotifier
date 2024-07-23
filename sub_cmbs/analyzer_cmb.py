@@ -32,6 +32,7 @@ class Stock:
         self.timeframe = timeframe
         self.period = period
         self.trend_direction = trend_direction
+        self.stock_retriever = retriever.StockRetriever(self.ticker)
 
     def run_trend_analysis(self):
         """Method allowing for complete stock trend analysis run from one place"""
@@ -44,7 +45,7 @@ class Stock:
         macd_new = macd.MACD(self.ticker, self.timeframe)
 
         latest_price = float(
-            (retriever.retrieve_last_stock_price(self.ticker))[0].get("last")
+            (self.stock_retriever.retrieve_last_stock_price())[0].get("last")
         )
 
         calculated_rsi = rsi_new.calc_rsi()
