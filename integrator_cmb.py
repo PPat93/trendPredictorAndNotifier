@@ -11,8 +11,8 @@ Analyzer -> Integrator -> Mailer
 Database -> Integrator -> Mailer
 """
 
-from sub_cmbs.analyzer_cmb import Stock as stck
 import time
+from sub_cmbs.analyzer_cmb import Stock as stck
 
 stocks = {}
 

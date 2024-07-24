@@ -16,23 +16,28 @@ sender_pass = os.environ.get("predictorAppPass")
 notifyee_email = os.environ.get("notifyeeMailerAddress")
 
 
-def compose_email(ticker, content):
-    """Create a message that will be send"""
-    compose_message = EmailMessage()
+class Mailer:
+    """Class for stock notification sending"""
 
-    compose_message["Subject"] = f"Change on {ticker}"
-    compose_message["From"] = sender_email
-    compose_message["To"] = notifyee_email
-    compose_message.set_content(
-        f"Hi! \nI found an interesting change on {ticker}.\n{content}"
-    )
-    return compose_message
+    def __init__(self, ticker: str) -> None:
+        self.ticker = ticker
 
+    def compose_email(self, content):
+        """Create a message that will be send"""
+        composed_message = EmailMessage()
 
-def send_email(message):
-    """Send notification email with the specified message"""
-    context = ssl.create_default_context()
+        composed_message["Subject"] = f"Change on {self.ticker}"
+        composed_message["From"] = sender_email
+        composed_message["To"] = notifyee_email
+        composed_message.set_content(
+            f"Hi! \nI found an interesting change on {self.ticker}.\n{content}"
+        )
+        return composed_message
 
-    with smtplib.SMTP_SSL("smtp.gmail.com", PORT, context=context) as server:
-        server.login(sender_email, sender_pass)
-        server.send_message(message)
+    def send_email(self, message):
+        """Send notification email with the specified message"""
+        context = ssl.create_default_context()
+
+        with smtplib.SMTP_SSL("smtp.gmail.com", PORT, context=context) as server:
+            server.login(sender_email, sender_pass)
+            server.send_message(message)
