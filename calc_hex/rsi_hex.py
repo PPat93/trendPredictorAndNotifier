@@ -34,7 +34,7 @@ import yfinance as yf
 
 class RSI:
     """Class for RSI calculation and all utilities around it"""
-    
+
     def __init__(self, ticker: str, start_date: str, end_date: str) -> object:
         self.ticker = ticker
         self.start_date = start_date

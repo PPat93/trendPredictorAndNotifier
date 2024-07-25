@@ -17,7 +17,7 @@ from . import ema_hex as ema
 
 class MACD:
     """Class for MACD calculation and all utilities around it"""
-    
+
     def __init__(self, ticker: str, timeframe: str) -> object:
         self.ticker = ticker
         self.timeframe = timeframe
