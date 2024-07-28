@@ -9,8 +9,9 @@ Worth using with other ratios - great with MACD.
 Base calculations are given in the comment. However, the Ta-Lib library was used 
 for the calculations.
 """
+
 # talib installation:
-# py.exe -3.12 -m pip install TA_Lib-0.4.29-cp312-cp312-win_amd64.whl 
+# py.exe -3.12 -m pip install TA_Lib-0.4.29-cp312-cp312-win_amd64.whl
 
 import talib
 import yfinance as yf
@@ -31,12 +32,20 @@ import yfinance as yf
 #     return RSI
 
 
-def calc_rsi(ticker: str, start_date: str, end_date: str):
-    """Retrieve specified stock data range and calculate its RSI"""
+class RSI:
+    """Class for RSI calculation and all utilities around it"""
 
-    data_res = yf.download(tickers=ticker, start=start_date, end=end_date)
+    def __init__(self, ticker: str, start_date: str, end_date: str) -> object:
+        self.ticker = ticker
+        self.start_date = start_date
+        self.end_date = end_date
 
-    # pylint: disable=no-member
-    data_res["RSI"] = talib.RSI(data_res["Close"], 14)
+    def calc_rsi(self):
+        """Retrieve specified stock data range and calculate its RSI"""
 
-    return data_res["RSI"]
+        data_res = yf.download(self.ticker, self.start_date, self.end_date)
+
+        # pylint: disable=no-member
+        data_res["RSI"] = talib.RSI(data_res["Close"], 14)
+
+        return data_res["RSI"]

@@ -15,36 +15,41 @@ from . import ema_hex as ema
 # EMAs - 12 periods and 26 periods Exponential Moving Average
 
 
-def calc_macd(ticker: str, timeframe: str):
-    """Retrieve specified stock data range and calculate its MACD"""
+class MACD:
+    """Class for MACD calculation and all utilities around it"""
 
-    if timeframe == "short":
-        period_s = 12
-        period_l = 26
-        s_line = 9
-    elif timeframe == "long":
-        period_s = 24
-        period_l = 52
-        s_line = 18
+    def __init__(self, ticker: str, timeframe: str) -> object:
+        self.ticker = ticker
+        self.timeframe = timeframe
 
-    ema_s = ema.calc_ema(ticker, period_s)
-    ema_l = ema.calc_ema(ticker, period_l)
+    def calc_macd(self):
+        """Retrieve specified stock data range and calculate its MACD"""
 
-    # Calculate MACD (the difference between shorter-period EMA and longer-period EMA)
-    macd = ema_s["ema"] - ema_l["ema"]
-    signal = macd.ewm(span=s_line, adjust=False).mean()
+        if self.timeframe == "short":
+            period_s = 12
+            period_l = 26
+            s_line = 9
+        elif self.timeframe == "long":
+            period_s = 24
+            period_l = 52
+            s_line = 18
 
-    return macd, signal
+        local_ema_s = ema.EMA(self.ticker, period_s)
+        local_ema_l = ema.EMA(self.ticker, period_l)
 
+        ema_s = local_ema_s.calc_ema()
+        ema_l = local_ema_l.calc_ema()
 
-def trade_signals(ticker: str, timeframe: str):
-    """Return buy/sell points on the basis of MACD and it's signal line"""
+        # Calculate MACD (the difference between shorter-period EMA and longer-period EMA)
+        macd = ema_s["ema"] - ema_l["ema"]
+        signal = macd.ewm(span=s_line, adjust=False).mean()
 
-    macd, signal = calc_macd(ticker, timeframe)
+        return macd, signal
 
-    signals = np.where(macd > signal, 1, -1)
-    signals = np.where(macd.isnull(), 0, signals)
+    def trade_signals(self):
+        """Return buy/sell points on the basis of MACD and it's signal line"""
 
+        macd, signal = self.calc_macd()
 
-macd, horizontal = calc_macd("NVDA", "long")
-
+        signals = np.where(macd > signal, 1, -1)
+        signals = np.where(macd.isnull(), 0, signals)

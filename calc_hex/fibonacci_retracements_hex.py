@@ -13,24 +13,35 @@ percentages to get ahead other traders.
 import yfinance as yf
 
 
-# TODO get rid of trend direction argument and replace it with rsi/macd automatic calculation
-def calc_fib_retr(ticker: str, start_date: str, end_date: str, trend_direction: str):
-    """Calculate and return Fibonacci Retracement lines"""
+class FibonacciRetrace:
+    """Class for Fibonacci Retracements calculation and all utilities around it"""
 
-    res = yf.download(tickers=ticker, start=start_date, end=end_date)
+    def __init__(
+        self, ticker: str, start_date: str, end_date: str, trend_direction: str
+    ) -> object:
+        self.ticker = ticker
+        self.start_date = start_date
+        self.end_date = end_date
+        self.trend_direction = trend_direction
 
-    res_highest = res["Close"].max()
-    res_lowest = res["Close"].min()
+    # TODO get rid of trend direction argument and replace it with rsi/macd automatic calculation
+    def calc_fib_retr(self):
+        """Calculate and return Fibonacci Retracement lines"""
 
-    lvl_rates = [0, 0.236, 0.382, 0.5, 0.618, 0.786, 1]
-    lvl_lines = []
+        res = yf.download(tickers=self.ticker, start=self.start_date, end=self.end_date)
 
-    dif = res_highest - res_lowest
+        res_highest = res["Close"].max()
+        res_lowest = res["Close"].min()
 
-    for x in lvl_rates:
-        if trend_direction == "up":
-            lvl_lines.append(res_highest - x * dif)
-        elif trend_direction == "down":
-            lvl_lines.append(res_lowest + x * dif)
+        lvl_rates = [0, 0.236, 0.382, 0.5, 0.618, 0.786, 1]
+        lvl_lines = []
 
-    return lvl_lines
+        dif = res_highest - res_lowest
+
+        for x in lvl_rates:
+            if self.trend_direction == "up":
+                lvl_lines.append(res_highest - x * dif)
+            elif self.trend_direction == "down":
+                lvl_lines.append(res_lowest + x * dif)
+
+        return lvl_lines
