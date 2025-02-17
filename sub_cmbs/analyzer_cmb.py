@@ -44,9 +44,7 @@ class Stock:
         rsi_new = rsi.RSI(self.ticker, self.start_date, self.end_date)
         macd_new = macd.MACD(self.ticker, self.timeframe)
 
-        latest_price = float(
-            (self.stock_retriever.retrieve_last_stock_price())[0].get("last")
-        )
+        latest_price = float((self.stock_retriever.retrieve_last_stock_price()))
 
         calculated_rsi = rsi_new.calc_rsi()
         calculated_fibonacci = fibonacci_new.calc_fib_retr()

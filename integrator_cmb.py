@@ -62,7 +62,5 @@ def invoke_trend_analysis(
     # return analysis_result TODOs
 
 
-invoke_trend_analysis("NVDA", "2024-05-02", "2024-07-07", "long", 26, "up")
-invoke_trend_analysis("NVDA", "2024-05-02", "2024-07-07", "long", 26, "up")
-invoke_trend_analysis("CMA", "2024-05-02", "2024-07-07", "long", 26, "up")
+invoke_trend_analysis("CMA", "2025-01-01", "2025-02-17", "long", 26, "up")
 invoke_trend_analysis("NVDA", "2024-05-02", "2024-07-07", "long", 26, "up")
