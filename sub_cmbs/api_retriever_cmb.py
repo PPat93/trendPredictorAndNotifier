@@ -30,7 +30,9 @@ class StockRetriever:
         price_res = requests.get(price_api_uri, headers=HEADERS, timeout=10)
         price_json = price_res.json()
 
-        return price_json
+        # tngoLast - shortly, this is a property that holds latest or mid value of the stock,
+        # depending on external factors
+        return price_json[0].get("tngoLast")
 
     # max 25 reqs/day
     def retrieve_stock_fundamental_data(self):
